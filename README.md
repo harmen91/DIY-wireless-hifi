@@ -75,6 +75,61 @@ signal between them).
 
 - run sudo apt update && upgrade to get your system up to date
 
+## Setting up Audio
+
+```
+# See what audio server is running
+
+pactl info | grep "Server Name"
+
+# Check if PipeWire is installed
+dpkg -l | grep pipewire
+
+# Check running audio services
+systemctl --user list-units | grep -i 'pulse\|pipewire\|wireplumber'
+
+sudo apt-get update
+sudo apt-get install -y \
+    pipewire \
+    pipewire-audio-client-libraries \
+    pipewire-pulse \
+    pipewire-jack \
+    pipewire-alsa \
+    libspa-0.2-bluetooth \
+    wireplumber
+
+sudo apt-get install -y libspa-0.2-bluetooth pipewire-audio
+
+
+# Enable PipeWire and its components
+systemctl --user enable pipewire pipewire-pulse wireplumber
+systemctl --user start pipewire pipewire-pulse wireplumber
+
+# Verify PipeWire is now the audio server
+pactl info | grep "Server Name"
+# Should show: pipewire-X.X.X
+
+# Check PipeWire is running
+pw-cli info
+
+# List all audio nodes
+pw-cli list-objects | grep -i "PipeWire:Interface:Node"
+
+# Or use the more user-friendly wpctl (WirePlumber control)
+wpctl status
+
+# List audio sinks and sources
+wpctl status | grep -A 20 "Audio"
+
+# Play a test sound
+paplay /usr/share/sounds/alsa/Front_Center.wav
+
+# Test with PipeWire native tools
+pw-play /usr/share/sounds/alsa/Front_Center.wav
+```
+more info: https://oneuptime.com/blog/post/2026-03-02-how-to-set-up-pipewire-as-audio-server-on-ubuntu/view
+
+
 ## Setting up Bluetooth
 
 ```# Install BlueZ (the Linux Bluetooth protocol stack) and utilities
@@ -136,60 +191,58 @@ bluetoothctl
 
 more info : https://oneuptime.com/blog/post/2026-03-02-set-up-bluetooth-ubuntu-server/view
 
-## Setting up Audio
-
-```
-# See what audio server is running
-
-pactl info | grep "Server Name"
-
-# Check if PipeWire is installed
-dpkg -l | grep pipewire
-
-# Check running audio services
-systemctl --user list-units | grep -i 'pulse\|pipewire\|wireplumber'
-
-sudo apt-get update
-sudo apt-get install -y \
-    pipewire \
-    pipewire-audio-client-libraries \
-    pipewire-pulse \
-    pipewire-jack \
-    pipewire-alsa \
-    libspa-0.2-bluetooth \
-    wireplumber
-
-sudo apt-get install -y libspa-0.2-bluetooth pipewire-audio
+# Some hotfixes to make it work on a headless ubuntu
 
 
-# Enable PipeWire and its components
-systemctl --user enable pipewire pipewire-pulse wireplumber
-systemctl --user start pipewire pipewire-pulse wireplumber
+apt install libspa-0.2-bluetooth 
+*(confirm it's actually present, not just pipewire/wireplumber core).*
 
-# Verify PipeWire is now the audio server
-pactl info | grep "Server Name"
-# Should show: pipewire-X.X.X
 
-# Check PipeWire is running
-pw-cli info
+sudo loginctl enable-linger <your-user> 
 
-# List all audio nodes
-pw-cli list-objects | grep -i "PipeWire:Interface:Node"
 
-# Or use the more user-friendly wpctl (WirePlumber control)
-wpctl status
+systemctl --user enable --now pipewire pipewire-pulse wireplumber 
+*(as that lingering user, not root).*
 
-# List audio sinks and sources
-wpctl status | grep -A 20 "Audio"
 
-# Play a test sound
-paplay /usr/share/sounds/alsa/Front_Center.wav
+*modify:*
+/usr/share/wireplumber/wireplumber.conf
 
-# Test with PipeWire native tools
-pw-play /usr/share/sounds/alsa/Front_Center.wav
-```
-more info: https://oneuptime.com/blog/post/2026-03-02-how-to-set-up-pipewire-as-audio-server-on-ubuntu/view
+*add:*
+monitor.bluez.seat-monitoring = disabled
 
+wireplumber.profiles = {
+  main = {
+    monitor.bluez.seat-monitoring = disabled
+  }
+}
+
+bluetoothctl
+power on
+scan on
+pair XX:XX:XX:XX:XX:XX
+trust XX:XX:XX:XX:XX:XX
+connect XX:XX:XX:XX:XX:XX
+
+*do this for both speakers*
+
+pactl list short sinks
+
+pactl load-module module-combine-sink \
+    sink_name=both_speakers \
+    slaves=bluez_output.52_58_0D_19_0A_4B.1,bluez_output.63_5E_53_8E_2B_06.1
+
+pactl set-default-sink both_speakers
+
+
+Create/edit ~/.asoundrc (or system-wide /etc/asound.conf):
+
+pcm.!default {
+    type pipewire
+}
+ctl.!default {
+    type pipewire
+}
 
 
 
