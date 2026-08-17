@@ -329,7 +329,10 @@ wireplumber.profiles = {
 ```
 
 This is intended to prevent WirePlumber from depending on desktop-session seat monitoring, which can otherwise interfere with Bluetooth audio on a headless server.
-
+Find where this file lives with the following command:
+```
+find / -xdev \( -path /proc -o -path /sys \) -prune -o -iname 'wireplumber.conf*' -print 2>/dev/null
+```
 ---
 
 # Pairing the speakers
