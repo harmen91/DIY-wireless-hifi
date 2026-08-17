@@ -398,7 +398,9 @@ bluez_output.63_5E_53_8E_2B_06.1
 Create a combined sink:
 
 ```bash
-pactl load-module module-combine-sink     sink_name=both_speakers     slaves=bluez_output.52_58_0D_19_0A_4B.1,bluez_output.63_5E_53_8E_2B_06.1
+pactl load-module module-combine-sink \
+    sink_name=both_speakers \
+    slaves=bluez_output.52_58_0D_19_0A_4B.1,bluez_output.63_5E_53_8E_2B_06.1
 ```
 
 Set it as the default output:
