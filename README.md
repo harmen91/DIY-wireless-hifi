@@ -523,3 +523,31 @@ https://oneuptime.com/blog/post/2026-03-02-how-to-set-up-pipewire-as-audio-serve
 https://pipewire.pages.freedesktop.org/wireplumber/daemon/configuration/bluetooth.html
 
 https://deepwiki.com/antimof/UxPlay/2-installation-and-setup
+
+## Bonus: uxplay (Airplay server on linux) ## 
+```
+sudo apt install uxplay
+sudo apt install gstreamer*
+```
+
+Copy service file to user directory
+```
+mkdir -p ~/.config/systemd/user
+cp /usr/share/doc/uxplay/systemd/uxplay.service ~/.config/systemd/user/
+``` 
+
+Start/stop service
+```
+systemctl --user start uxplay
+systemctl --user stop uxplay
+```
+
+Enable autostart on login
+```
+systemctl --user enable uxplay
+```
+
+Check status
+```
+systemctl --user status uxplay
+```
