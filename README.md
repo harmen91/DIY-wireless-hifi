@@ -504,6 +504,8 @@ The Raspberry Pi is therefore the central controller. The speaker units do not n
 
 This README currently documents the working hardware setup and the basic Ubuntu/PipeWire/Bluetooth configuration.
 
+You can now go ahead and use this in combination with uxplay (linux airplay server) or cliamp (terminal winamp style media player) to enjoy some music with your wireless bluetooth system!
+
 The next logical steps for the project are:
 
 - automate Bluetooth speaker connection
