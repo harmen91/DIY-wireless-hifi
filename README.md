@@ -17,20 +17,16 @@ Two identical, self-contained channels (one per tool battery). Each channel is a
 mono TPA3116D2 amp fed by a stereo Bluetooth receiver, with the L and R outputs
 summed through resistors into the single mono input.
 
-> **Note:** A Raspberry Pi 4B + microSD is listed in the BOM but is not part of
-> the audio signal path described below — update this doc once its role
-> (e.g. network source, control/automation) is finalized.
-
 ## Signal path (per channel)
 
 ```
 VHM-314 Bluetooth board (3.5mm stereo out, from a cut mini-jack cable)
         │
         ├── L  ──[10kΩ]──┐
-        │                ├──► Amp "+" (IN) — TPA3116D2 mono input
+        │                ├──► Amp "+" (IN)
         ├── R  ──[10kΩ]──┘
         │
-        └── GND ─────────────► Amp "−" (IN) — direct, no resistor
+        └── GND ─────────────► Amp "−" (IN)
 ```
 
 The two 10 kΩ resistors mix the stereo L/R channels into one mono signal while
@@ -43,39 +39,12 @@ keeping the two Bluetooth outputs from being shorted together.
         │  (via DC adapter)
         ├────────────────────────────► TPA3116D2 amp  IN+ / IN−   (12–24V direct)
         │
-        └──► LM2596 buck converter ──► trimmed to 5V ──► USB ──► VHM-314 BT board (VCC/GND)
+        └──► LM2596 buck converter ──► trimmed to 5V ──► VHM-314 BT board 
 ```
 
 The battery feeds the amplifier board directly (TPA3116D2 accepts 12–24V), and
 separately feeds an LM2596 step-down module trimmed to 5V to power the
-Bluetooth receiver over its USB input.
-
-## Full per-channel schematic (Mermaid)
-
-```mermaid
-flowchart TD
-    BAT["18-21V Tool Battery<br/>(+ DC adapter)"]
-    LM["LM2596 Step-Down<br/>trimmed to 5V out"]
-    BT["VHM-314 Bluetooth<br/>Receiver Board"]
-    AMPPWR["TPA3116D2 Amp<br/>IN+ / IN- (power)"]
-    AMPSIG_P["TPA3116D2 Amp<br/>Audio IN +"]
-    AMPSIG_N["TPA3116D2 Amp<br/>Audio IN -"]
-    SPK["Speaker"]
-
-    BAT -->|18-21V| LM
-    BAT -->|18-21V direct| AMPPWR
-    LM -->|5V via USB| BT
-
-    BT -->|"L out"| R1["10kΩ resistor"]
-    BT -->|"R out"| R2["10kΩ resistor"]
-    BT -->|"GND"| AMPSIG_N
-    R1 --> AMPSIG_P
-    R2 --> AMPSIG_P
-
-    AMPPWR -.powers.-> AMPSIG_P
-    AMPSIG_P --> SPK
-    AMPSIG_N --> SPK
-```
+Bluetooth receiver.
 
 Duplicate this whole block a second time for the second battery/amp/Bluetooth
 set — the two channels are electrically independent (no shared ground or
@@ -87,7 +56,7 @@ signal between them).
 |---|---|---|
 | Battery + / − | LM2596 IN+ / IN− | Raw 18–21V in |
 | Battery + / − | Amp board VIN+ / VIN− ("IN"/"VCL" terminals) | Direct, no regulation needed (TPA3116D2 accepts 12–24V) |
-| LM2596 OUT+ / OUT− | BT board 5V / GND (USB) | Trim LM2596 pot to 5.0V **before** connecting the BT board |
+| LM2596 OUT+ / OUT− | BT board 5V / GND | Trim LM2596 pot to 5.0V **before** connecting the BT board |
 | BT board L out | 10kΩ resistor #1 | One leg to BT L pad, other leg to amp "+" input |
 | BT board R out | 10kΩ resistor #2 | One leg to BT R pad, other leg to amp "+" input (shared node with R1) |
 | BT board GND | Amp "−" input | Direct connection, no resistor |
