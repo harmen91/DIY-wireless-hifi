@@ -223,28 +223,6 @@ To see the audio devices:
 wpctl status | grep -A 20 "Audio"
 ```
 
-## Test audio playback
-
-Using the PulseAudio-compatible interface:
-
-```bash
-paplay /usr/share/sounds/alsa/Front_Center.wav
-```
-
-Using PipeWire directly:
-
-```bash
-pw-play /usr/share/sounds/alsa/Front_Center.wav
-```
-
-The second command is useful when testing PipeWire itself because it talks directly to the PipeWire audio system.
-
-More information:
-
-https://oneuptime.com/blog/post/2026-03-02-how-to-set-up-pipewire-as-audio-server-on-ubuntu/view
-
----
-
 # Bluetooth setup
 
 Bluetooth is handled by **BlueZ**, the standard Linux Bluetooth protocol stack. PipeWire/WirePlumber then handles the audio side of the Bluetooth connection.
@@ -462,6 +440,28 @@ ctl.!default {
 ```
 
 This allows ALSA applications to use PipeWire as their audio backend.
+
+---
+
+## Test audio playback
+
+Using the PulseAudio-compatible interface:
+
+```bash
+paplay /usr/share/sounds/alsa/Front_Center.wav
+```
+
+Using PipeWire directly:
+
+```bash
+pw-play /usr/share/sounds/alsa/Front_Center.wav
+```
+
+The second command is useful when testing PipeWire itself because it talks directly to the PipeWire audio system.
+
+More information:
+
+https://oneuptime.com/blog/post/2026-03-02-how-to-set-up-pipewire-as-audio-server-on-ubuntu/view
 
 ---
 
