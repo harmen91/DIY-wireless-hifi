@@ -1,9 +1,7 @@
-<img width="4096" height="2304" alt="signal-2026-08-17-192331" src="https://github.com/user-attachments/assets/9f4c1b2a-bba8-4541-a774-d98e661bf29e" />
-<img width="4096" height="2304" alt="signal-2026-08-17-193607" src="https://github.com/user-attachments/assets/b55af238-f67d-45f3-b928-9518c6c83329" />
-
-
 # DIY-wireless-hifi
 Guide to building DIY Bluetooth speaker amplifiers that convert passive speakers into active wireless monitors with multi-speaker simultaneous playback using tool batters, amplifier boards, bluetooth boards, buck converters and a raspberry pi running ubuntu server..
+
+<img width="4096" height="2304" alt="signal-2026-08-17-192331" src="https://github.com/user-attachments/assets/9f4c1b2a-bba8-4541-a774-d98e661bf29e" />
 
 # Hardware list
 - RaspberryPi 4B + microsd
@@ -65,5 +63,7 @@ signal between them).
 | BT board R out | 10kΩ resistor #2 | One leg to BT R pad, other leg to amp "+" input (shared node with R1) |
 | BT board GND | Amp "−" input | Direct connection, no resistor |
 | Amp speaker out + / − | Speaker | Standard 2-wire speaker connection 
+
+<img width="4096" height="2304" alt="signal-2026-08-17-193607" src="https://github.com/user-attachments/assets/b55af238-f67d-45f3-b928-9518c6c83329" />
 
   
