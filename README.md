@@ -280,54 +280,6 @@ hciconfig hci0 version
 
 ---
 
-# Pairing the speakers
-
-`bluetoothctl` is the main command-line tool used to manage Bluetooth devices.
-
-Start it with:
-
-```bash
-bluetoothctl
-```
-
-Inside the interactive shell:
-
-```text
-[bluetooth]# show
-[bluetooth]# power on
-[bluetooth]# agent on
-[bluetooth]# default-agent
-[bluetooth]# discoverable on
-[bluetooth]# discoverable-timeout 120
-[bluetooth]# pairable on
-```
-
-Exit with:
-
-```text
-[bluetooth]# quit
-```
-
-To connect a speaker:
-
-```bash
-bluetoothctl
-```
-
-Then:
-
-```text
-[bluetooth]# power on
-[bluetooth]# scan on
-[bluetooth]# pair XX:XX:XX:XX:XX:XX
-[bluetooth]# trust XX:XX:XX:XX:XX:XX
-[bluetooth]# connect XX:XX:XX:XX:XX:XX
-```
-
-Repeat the pairing and connection process for the second speaker.
-
----
-
 # Headless Ubuntu fixes
 
 Because the Raspberry Pi is running Ubuntu Server without a desktop environment, some Bluetooth/PipeWire components may need additional configuration.
@@ -377,6 +329,54 @@ wireplumber.profiles = {
 ```
 
 This is intended to prevent WirePlumber from depending on desktop-session seat monitoring, which can otherwise interfere with Bluetooth audio on a headless server.
+
+---
+
+# Pairing the speakers
+
+`bluetoothctl` is the main command-line tool used to manage Bluetooth devices.
+
+Start it with:
+
+```bash
+bluetoothctl
+```
+
+Inside the interactive shell:
+
+```text
+[bluetooth]# show
+[bluetooth]# power on
+[bluetooth]# agent on
+[bluetooth]# default-agent
+[bluetooth]# discoverable on
+[bluetooth]# discoverable-timeout 120
+[bluetooth]# pairable on
+```
+
+Exit with:
+
+```text
+[bluetooth]# quit
+```
+
+To connect a speaker:
+
+```bash
+bluetoothctl
+```
+
+Then:
+
+```text
+[bluetooth]# power on
+[bluetooth]# scan on
+[bluetooth]# pair XX:XX:XX:XX:XX:XX
+[bluetooth]# trust XX:XX:XX:XX:XX:XX
+[bluetooth]# connect XX:XX:XX:XX:XX:XX
+```
+
+Repeat the pairing and connection process for the second speaker.
 
 ---
 
