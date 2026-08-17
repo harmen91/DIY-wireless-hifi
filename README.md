@@ -515,7 +515,11 @@ The next logical steps for the project are:
 - eventually turn the setup into a proper multi-speaker wireless surround system
 
 ## Useful links
+
 https://oneuptime.com/blog/post/2026-03-02-set-up-bluetooth-ubuntu-server/
+
 https://oneuptime.com/blog/post/2026-03-02-how-to-set-up-pipewire-as-audio-server-on-ubuntu/
+
 https://pipewire.pages.freedesktop.org/wireplumber/daemon/configuration/bluetooth.html
+
 https://deepwiki.com/antimof/UxPlay/2-installation-and-setup
